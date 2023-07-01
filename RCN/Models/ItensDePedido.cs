@@ -1,7 +1,7 @@
 ﻿using RCN.Interfaces;
-using RCN.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -9,10 +9,16 @@ namespace RCN.Entities
 {
     public class ItensDePedido
     {
+        [Required]
         public int ID { get; set; }
+
+        [Required]
         public int PedidoID { get; set; }
+
+        [Required]
         public int ProdutoID { get; set; }
 
+        [Required]
         public int Quantidade;
 
         IItensDePedidoRepository _itensDePedidoRepository;
@@ -113,37 +119,35 @@ namespace RCN.Entities
                 return false;
             }
             else
-            {                
-               return true;
+            {
+                return true;
             }
         }
         public void UpItensDePedido(ItensDePedido itensDePedido)
         {
-            var upItensDePedido = new ItensDePedido()
+            _itensDePedidoRepository.Add(new ItensDePedido()
             {
                 PedidoID = itensDePedido.PedidoID,
                 ProdutoID = itensDePedido.ProdutoID,
                 Quantidade = itensDePedido.Quantidade,
                 Valor = itensDePedido.Valor
-            };
+            });
 
             _itensDePedidoRepository.Save();
 
         }
 
-        public void DeleteItensDePedido(int idItensDePedido)
+        public void DeleteItensDePedido(int idItemDePedido)
         {
-            if (idItensDePedido == null)
+            var itemDePedido = _itensDePedidoRepository.FirstOrDefault(x => x.ID == idItemDePedido);
+            if (itemDePedido == null)
             {
-                throw new Exception("Nenhum item de pedido selecionado!");
+                Console.WriteLine("Nenhum item de pedido selecionado!");
             }
-            else if (idItensDePedido != null)
+            else if (itemDePedido != null)
             {
-                var produto = _itensDePedidoRepository.FirstOrDefault(x => x.ID == idItensDePedido);
-
-                _itensDePedidoRepository.Remove(produto);
+                _itensDePedidoRepository.Remove(itemDePedido);
                 _itensDePedidoRepository.Save();
-
             }
         }
 

@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RCN.Data;
 using RCN.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using RCN.Repository.Data;
 
-namespace RCN.Entities
+namespace RCN.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
@@ -17,7 +17,7 @@ namespace RCN.Entities
         public Repository(AppDbContext db)
         {
             _db = db;
-            this.dbSet = _db.Set<T>();
+            dbSet = _db.Set<T>();
         }
 
         public void Add(T entity)

@@ -6,9 +6,14 @@ namespace RCN.Entities
 {
     public class Produtos
     {
+        [Required]
         public int ID { get; set; }
+
+        [Required]
         [StringLength(255, ErrorMessage = "O Campo Identificador excedeu o limite de caracteres.")]
         public string Nome { get; set; }
+
+        [Required]
         public CategoriaProdutos Categoria { get; set; }
 
         IProdutosRepository _produtosRepository;
@@ -77,11 +82,11 @@ namespace RCN.Entities
         }
         public void UpProdutos(Produtos produto)
         {
-            var upProduto = new Produtos()
+            _produtosRepository.Add(new Produtos()
             {
                 Nome = produto.Nome,
                 Categoria = produto.Categoria
-            };
+            });
 
             _produtosRepository.Save();
 
@@ -89,17 +94,15 @@ namespace RCN.Entities
 
         public void DeleteProdutos(int idProduto)
         {
-            if (idProduto == null)
+            var produto = _produtosRepository.FirstOrDefault(x => x.ID == idProduto);
+            if (produto == null)
             {
-                throw new Exception("Nenhum produto selecionado!");
+                Console.WriteLine("Nenhum produto selecionado!");
             }
-            else if (idProduto != null)
+            else if (produto != null)
             {
-                var produto = _produtosRepository.FirstOrDefault(x => x.ID == idProduto);
-
                 _produtosRepository.Remove(produto);
                 _produtosRepository.Save();
-
             }
         }
 

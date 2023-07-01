@@ -1,9 +1,8 @@
-﻿using RCN.Data;
+﻿using Microsoft.EntityFrameworkCore;
 using RCN.Entities;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace RCN.Repository
+namespace RCN.Repository.Data.Entities
 {
     public class ProdutosRepository
     {
@@ -39,3 +38,4 @@ namespace RCN.Repository
         }
     }
 }
+
